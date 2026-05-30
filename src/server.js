@@ -25,6 +25,7 @@ app.use('/api/config', configRoutes);
 const isServerlessRuntime = Boolean(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME);
 const shouldSkipBoot = process.env.SKIP_APP_BOOT === 'true';
 const webhookPath = '/api/telegram/webhook';
+let botInitPromise = null;
 
 const trimTrailingSlash = (value = '') => String(value).replace(/\/+$/, '');
 
@@ -99,6 +100,15 @@ app.post(webhookPath, async (req, res) => {
   }
 
   try {
+    if (!botInitPromise) {
+      botInitPromise = bot.init().catch((error) => {
+        console.error('[Telegram Init Error]', error);
+        throw error;
+      });
+    }
+    if (botInitPromise) {
+      await botInitPromise;
+    }
     await bot.handleUpdate(req.body);
   } catch (error) {
     console.error('[Telegram Webhook Error]', error);
@@ -110,6 +120,12 @@ app.post(webhookPath, async (req, res) => {
 const bootSystem = async () => {
   await connectDB();
   await seedTemplates();
+
+  botInitPromise = bot.init().catch((error) => {
+    console.error('[Telegram Init Error]', error);
+    throw error;
+  });
+  await botInitPromise;
 
   const webhookUrl = getWebhookUrl();
   if (webhookUrl) {
