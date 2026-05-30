@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixelz Automation Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="bg-gradient-to-br from-[#0c0714] via-[#050508] to-[#12091f] text-gray-100 min-h-screen font-sans">
+
+  <div id="privacyModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+    <div class="bg-[#120b1e]/90 border border-purple-500/30 p-6 rounded-2xl max-w-md w-full shadow-[0_0_50px_rgba(147,51,234,0.2)] text-center glass-card">
+      <h2 class="text-2xl font-bold text-purple-400 mb-4 tracking-wide">Data Compliance Authorization</h2>
+      <p class="text-gray-300 text-sm leading-relaxed mb-6">
+        To activate AI automation pipelines via Pixelz Automation, you must grant consent for secure communication processing. We analyze contextual conversation streams to generate response models. Your text parameters are structured using advanced TLS protocol rules.
+      </p>
+      <button id="btnAcceptPrivacy" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-semibold py-3 px-6 rounded-xl transition duration-300 shadow-lg shadow-purple-700/40">
+        I Accept & Grant Consent
+      </button>
+    </div>
+  </div>
+
+  <div class="max-w-4xl mx-auto p-4 sm:p-6 space-y-8 pb-32">
+    
+    <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-purple-900/40 pb-6 gap-4">
+      <div>
+        <h1 class="text-3xl font-extrabold tracking-wider bg-gradient-to-r from-purple-400 to-indigo-300 bg-clip-text text-transparent">PIXELZ AUTOMATION</h1>
+        <p class="text-xs tracking-widest text-purple-400/70 mt-1 uppercase">Advanced Core Node Matrix</p>
+      </div>
+      <div class="bg-purple-950/40 border border-purple-500/20 px-4 py-2 rounded-xl text-sm font-mono text-purple-300 backdrop-blur-sm">
+        ID: <span id="userIdDisplay">Connecting...</span>
+      </div>
+    </header>
+
+    <main class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <section class="lg:col-span-7 space-y-4">
+        <h2 class="text-xl font-bold tracking-wide text-purple-300 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          Live Queue Stream
+        </h2>
+        <div id="queueContainer" class="space-y-4 min-h-[300px]">
+          <p class="text-gray-500 text-sm italic">Polling operational channels for active draft cycles...</p>
+        </div>
+      </section>
+
+      <section class="lg:col-span-5 space-y-6">
+        
+        <div class="bg-[#100a1c]/60 border border-purple-900/30 rounded-2xl p-5 shadow-xl glass-card space-y-5">
+          <h3 class="text-lg font-bold tracking-wide border-b border-purple-900/30 pb-2 text-indigo-300">System Parameters</h3>
+          
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-medium text-gray-300">AI Context Analysis</span>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="toggleDataLearning" class="sr-only peer">
+              <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+            </label>
+          </div>
+
+          <div class="space-y-2">
+            <label class="block text-xs font-semibold tracking-wider text-purple-400 uppercase">Acoustic Tone Tuning</label>
+            <select id="selectTone" class="w-full bg-[#160f26] border border-purple-900/50 rounded-xl px-3 py-2 text-sm text-gray-200 focus:outline-none focus:border-purple-500 transition">
+              <option value="Professional">Professional</option>
+              <option value="Aggressive Core Sales">Aggressive Core Sales</option>
+              <option value="Empathetic Tech Support">Empathetic Tech Support</option>
+              <option value="Hyper Minimalist">Hyper Minimalist</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="bg-[#100a1c]/60 border border-purple-900/30 rounded-2xl p-5 shadow-xl glass-card space-y-4">
+          <h3 class="text-lg font-bold tracking-wide border-b border-purple-900/30 pb-2 text-indigo-300">Preset Models</h3>
+          <div id="presetsContainer" class="space-y-3">
+            </div>
+          <div class="space-y-2 pt-2">
+            <label class="block text-xs font-semibold tracking-wider text-purple-400 uppercase">Active System Instruction Matrix</label>
+            <textarea id="customPromptArea" rows="4" class="w-full bg-[#160f26] border border-purple-900/50 rounded-xl p-3 text-xs text-gray-200 font-mono focus:outline-none focus:border-purple-500 transition" placeholder="Inject localized analytical overrides..."></textarea>
+          </div>
+          <button id="btnSaveConfig" class="w-full bg-purple-950/60 hover:bg-purple-900/60 text-purple-300 border border-purple-500/30 hover:border-purple-500/60 text-sm font-semibold py-2.5 px-4 rounded-xl transition duration-200">
+            Commit Dynamic Changes
+          </button>
+        </div>
+
+      </section>
+    </main>
+
+    <footer class="mt-16 pt-8 border-t border-purple-900/30 text-center space-y-4">
+      <div class="bg-[#0f0919]/80 border border-purple-500/20 rounded-2xl p-6 max-w-xl mx-auto glass-card shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
+        <p class="text-xs tracking-widest text-purple-400/80 uppercase font-mono">System Architect Node</p>
+        <h4 class="text-xl font-bold tracking-wide text-gray-200 mt-1">Anas Pixelz</h4>
+        <p class="text-sm text-gray-400 mt-1">
+          Systems Operations, Engineering, & Next-Gen Interface Prototyping
+        </p>
+        <div class="mt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="https://anaspixelzportfolio.netlify.app/" target="_blank" class="text-xs text-indigo-400 hover:text-indigo-300 underline transition font-mono tracking-wide">
+            View Structural Portfolio
+          </a>
+          <a href="https://t.me/anaspixelz" target="_blank" class="inline-flex items-center justify-center bg-gradient-to-r from-purple-600/40 to-indigo-600/40 hover:from-purple-600/60 hover:to-indigo-600/60 border border-purple-500/40 text-white font-medium text-xs py-2 px-5 rounded-xl transition-all shadow-md shadow-black/40">
+            Report a Bug / Contact Support
+          </a>
+        </div>
+        <div class="mt-5 border-t border-purple-950/60 pt-3 text-[10px] tracking-[0.25em] font-extrabold text-purple-500/50 uppercase">
+          Powered by Void's Laboratory
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>
