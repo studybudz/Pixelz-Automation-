@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pixelz Automation | Settings</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="assets/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; color: #102033; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .font-display { font-family: 'Space Grotesk', sans-serif; }
+    </style>
+</head>
+<body class="app-shell p-4 min-h-screen pb-20" data-page="settings">
+    <header class="flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-xl font-bold tracking-tight italic text-slate-900">PIXELZ<span class="text-purple-600">.AI</span></h1>
+            <p class="text-[9px] text-slate-500 font-mono tracking-tighter">NODE_ID: <span id="userIdDisplay" class="text-slate-700">-------</span></p>
+        </div>
+        <a href="/index.html" class="px-3 py-1 bg-white/80 border border-slate-200 rounded-full">
+            <span class="text-[9px] text-purple-600 font-bold uppercase tracking-widest live-indicator">Back to Dashboard</span>
+        </a>
+    </header>
+
+    <nav class="flex flex-wrap gap-2 mb-6">
+        <a href="/index.html" class="px-3 py-2 rounded-full border border-slate-200 bg-white text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-700">Dashboard</a>
+        <a href="/settings.html" class="px-3 py-2 rounded-full border border-slate-200 bg-white text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-700">Settings</a>
+        <a href="/integrations.html" class="px-3 py-2 rounded-full border border-slate-200 bg-white text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-700">Integrations</a>
+    </nav>
+
+    <section class="glass-card hero-panel p-6 rounded-[2rem] mb-6">
+        <p class="text-[10px] uppercase tracking-[0.3em] text-purple-600/80 mb-3">Automation rules</p>
+        <h2 class="font-display text-3xl md:text-4xl font-bold leading-tight text-slate-900">Choose how the bot should reply and when it should stay active.</h2>
+        <p id="statusSubtitle" class="text-sm text-slate-600 mt-3 leading-relaxed">Use draft review if you want to approve replies first, or switch to online/offline/both for live handling.</p>
+    </section>
+
+    <div class="space-y-4">
+        <section class="glass-card p-5 rounded-[1.75rem]">
+            <h3 class="text-sm font-bold mb-4 text-slate-900">Reply Mode</h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-[10px] uppercase font-bold text-slate-500 mb-2 tracking-widest">Automation Mode</label>
+                    <select id="selectAutomationMode" class="w-full rounded-2xl p-4 text-sm">
+                        <option value="draft">Draft review</option>
+                        <option value="hybrid">Hybrid</option>
+                        <option value="auto">Auto reply</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[10px] uppercase font-bold text-slate-500 mb-2 tracking-widest">Reply Window</label>
+                    <select id="selectReplyWindowMode" class="w-full rounded-2xl p-4 text-sm">
+                        <option value="draft">Draft only</option>
+                        <option value="online">Online only</option>
+                        <option value="offline">Offline only</option>
+                        <option value="both">Both online and offline</option>
+                    </select>
+                </div>
+                <div class="flex items-center justify-between p-4 bg-white/70 rounded-2xl border border-slate-200">
+                    <div>
+                        <p class="text-xs font-semibold text-slate-800">AI Learning</p>
+                        <p class="text-[10px] text-slate-500">Improve replies based on your history</p>
+                    </div>
+                    <input type="checkbox" id="toggleDataLearning" class="w-5 h-5 accent-purple-600 rounded-lg">
+                </div>
+            </div>
+        </section>
+
+        <section class="glass-card p-5 rounded-[1.75rem]">
+            <h3 class="text-sm font-bold mb-4 text-slate-900">Schedule</h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-[10px] uppercase font-bold text-slate-500 mb-2 tracking-widest">Active Days</label>
+                    <div class="flex flex-wrap gap-2" id="daysSelector">
+                        <template id="dayBtnTpl">
+                            <label class="flex-1">
+                                <input type="checkbox" class="hidden peer" name="automationDays">
+                                <div class="text-[10px] py-2 text-center rounded-xl bg-white border border-slate-200 text-slate-600 peer-checked:bg-purple-600 peer-checked:text-white peer-checked:border-purple-500 transition-all cursor-pointer">
+                                    DAY
+                                </div>
+                            </label>
+                        </template>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[10px] uppercase font-bold text-slate-500 mb-2 tracking-widest">Shift Start</label>
+                        <input type="number" id="businessStart" placeholder="0" class="w-full rounded-xl p-3 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] uppercase font-bold text-slate-500 mb-2 tracking-widest">Shift End</label>
+                        <input type="number" id="businessEnd" placeholder="24" class="w-full rounded-xl p-3 text-sm">
+                    </div>
+                </div>
+                <div class="flex items-center justify-between p-4 bg-white/70 rounded-2xl border border-slate-200">
+                    <div>
+                        <p class="text-xs font-semibold text-slate-800">Away Message</p>
+                        <p class="text-[10px] text-slate-500">Auto-reply outside business hours</p>
+                    </div>
+                    <input type="checkbox" id="toggleAwayMessage" class="w-5 h-5 accent-purple-600 rounded-lg">
+                </div>
+                <div id="awayMessageContainer" class="hidden">
+                    <label class="block text-[10px] uppercase font-bold text-slate-500 mb-2 tracking-widest">Away Message Text</label>
+                    <textarea id="awayMessageText" rows="2" class="w-full rounded-xl p-4 text-sm" placeholder="We are currently offline..."></textarea>
+                </div>
+            </div>
+        </section>
+
+        <section class="glass-card p-5 rounded-[1.75rem]">
+            <h3 class="text-sm font-bold mb-4 text-slate-900">Keywords and Templates</h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-[10px] uppercase font-bold text-slate-500 mb-2 tracking-widest">Priority Routing Keywords</label>
+                    <p class="text-[9px] text-slate-500 mb-2">Comma separated, for example: human, agent, urgent</p>
+                    <input type="text" id="routingKeywords" class="w-full rounded-xl p-4 text-sm" placeholder="human, agent, help">
+                </div>
+
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="block text-[10px] uppercase font-bold text-slate-500 tracking-widest">Custom Keyword Replies</label>
+                        <button id="btnAddPair" type="button" class="text-[10px] text-purple-600 font-bold">+ Add Pair</button>
+                    </div>
+                    <div id="keywordPairsContainer" class="space-y-3"></div>
+                </div>
+
+                <div>
+                    <label class="block text-[10px] uppercase font-bold text-slate-500 mb-2 tracking-widest">Linguistic Tone</label>
+                    <select id="selectTone" class="w-full rounded-2xl p-4 text-sm">
+                        <option value="Professional">Professional</option>
+                        <option value="Friendly">Friendly</option>
+                        <option value="Concise">Concise</option>
+                        <option value="Empathetic">Empathetic</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-[10px] uppercase font-bold text-slate-500 mb-2 tracking-widest">Bot Personality</label>
+                    <textarea id="customPromptArea" rows="4" class="w-full rounded-2xl p-4 text-sm" placeholder="Set AI personality..."></textarea>
+                </div>
+
+                <div id="presetsContainer" class="grid grid-cols-1 gap-2"></div>
+            </div>
+        </section>
+
+        <button id="btnSaveConfig" class="w-full py-4 bg-purple-600 hover:bg-purple-500 text-white rounded-2xl font-bold text-sm shadow-lg shadow-purple-900/15 transition-all active:scale-[0.98]">
+            Save Settings
+        </button>
+    </div>
+
+    <script src="assets/app.js"></script>
+</body>
+</html>
