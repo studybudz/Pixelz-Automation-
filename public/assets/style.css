@@ -1,0 +1,35 @@
+/* Glassmorphism Structural Architecture Declarations */
+.glass-card {
+  background: rgba(16, 10, 28, 0.45) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+/* Custom Webkit scrollbar for premium dark theme profiles */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #06030a;
+}
+::-webkit-scrollbar-thumb {
+  background: #2b1747;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #442370;
+}
+
+.stat-card-gradient {
+  background: linear-gradient(135deg, rgba(88, 28, 135, 0.1) 0%, rgba(17, 10, 29, 0.4) 100%);
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.live-indicator {
+  animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
